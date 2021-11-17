@@ -1,0 +1,47 @@
+<p id = "notice"> <%= notice %></p>
+<h1>Labs Reports</h1>
+<%= link_to "New report",  new_report_path%>
+<% @reports.each do |report| %>
+  <div class="card">
+    <div class="card-body">
+      <h5 class="card-title"><%= report.title %></h5>
+      <h6 class="card-subtitle mb-2 text-muted">User: <%= report.user_data %></h6>
+      <p class="card-text"><%= report.description %></p>
+      <% if !report.grade.blank? %>
+        <p class="card-text" style="float: left; width: 100px; padding-top: 5px">
+          <%# if !report.grade.blank? %>
+          Mark:
+          <% case (report.grade.to_i)%>
+          <% when 5..100 %>
+            <%= "A" %>
+          <% when 86..94 %>
+            <%= "B" %>
+          <% when 69..85 %>
+            <%= "C" %>
+          <% when 61..68 %>
+            <%= "D" %>
+          <% when 51..60 %>
+            <%= "E" %>
+          <% when 31..50 %>
+            <%= "FX" %>
+          <% when 0..30 %>
+            <%= "F" %>
+          <% else %>
+            <%= puts("No") %>
+          <% end %>
+          (<%= report.grade %>)
+          <%# end %>
+        </p>
+      <% else %>
+        <div style="float: left; width: 100px">
+          <%= link_to "Add grade", edit_report_path(report), class:"btn btn-outline-dark" %>
+        </div>
+      <% end %>
+      <div style="float: left">
+        <%= button_to "Remove", report, method: :delete, data: {confirm: "You want to reset the index of all reports?" }, class:"btn btn-outline-dark" %>
+      </div>
+    </div>
+  </div>
+  <br/>
+<% end %>
+<br/>

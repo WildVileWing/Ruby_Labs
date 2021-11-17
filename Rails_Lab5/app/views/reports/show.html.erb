@@ -1,0 +1,11 @@
+<p id = "notice"> <%= notice %></p>
+
+<%= render @report %>
+
+  <%= link_to "Edit", edit_report_path(@report), class:"btn btn-outline-dark" %> |
+  <%= link_to "Back", reports_path, class:"btn btn-outline-dark" %>
+  <%= button_to "Destroy", report_path(@report), method: :delete, class:"btn btn-outline-dark" %>
+
+
+<%= link_to 'Edit', edit_report_path(@post) %>
+<%= link_to 'Back', reports_path %>
