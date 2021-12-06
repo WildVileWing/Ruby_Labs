@@ -11,15 +11,14 @@ def greeting
   end
 end
 
-def foobar
+def foobar(first_number, second_number)
   puts 'Введите два числа'
-  first_number = gets.to_i
-  second_number = gets.to_i
   if first_number == 20 || second_number == 20
-    puts_return('Было введено число 20')
+    puts_return(20)
   else
     puts_return("Сумма: #{first_number + second_number}")
   end
 end
 
-foobar
+greeting
+foobar(1, 20)

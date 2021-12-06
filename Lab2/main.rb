@@ -22,5 +22,3 @@ def pokedex
   end
   puts_return(pokemons_array)
 end
-
-pokedex
