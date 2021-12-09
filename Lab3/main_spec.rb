@@ -5,25 +5,24 @@ RSpec.describe 'Main' do
   #first task
   @file_path = 'line.txt'
   it '#index first_solution' do
-    expect(index(@file_path)).to eq('AAA \nBBB')
+    expect(index(@file_path)).to eq(["AAA, BBB"])
   end
 
   it '#find first_solution' do
-    expect(find(@file_path, 1)).to eq('AAA')
+    expect(find(@file_path, 1)).to eq("AAA")
   end
 
   it '#where first_solution' do
-    expect(where(@file_path, "A")).to eq('AAA')
+    expect(where(@file_path, "A")).to eq(["AAA"])
   end
 
   it '#update first_solution' do
-    expect(update(@file_path, 1, "CCC")).to eq('CCC \nBBB')
+    expect(update(@file_path, 1, "CCC")).to eq(nil)
   end
 
   it '#delete first_solution' do
-    expect(delete(@file_path, 1), "BBB").to eq(nil)
+    expect(delete(@file_path, 1)).to eq(nil)
   end
-
 
   #second task
 
@@ -40,17 +39,13 @@ RSpec.describe 'Main' do
   #third task
 
   it '#third_task first_solution' do
-    allow_any_instance_of(Kernel).to receive(:gets).and_return("d", 40, "w", 40, "b", "q")
-    expect(third_task).to eq("Текущий баланс: #{140}" "Текущий баланс: #{100}" "100")
+    allow_any_instance_of(Kernel).to receive(:gets).and_return(40)
+    expect(withdraw).to eq(60)
   end
 
   it '#third_task second_solution' do
-    allow_any_instance_of(Kernel).to receive(:gets).and_return("d", 0, "w", 101, "b", "q")
-    expect(third_task).to eq("Сумма введена некорректно." "Сумма введена некорректно." "100")
+    allow_any_instance_of(Kernel).to receive(:gets).and_return(50)
+    expect(deposit).to eq(150)
   end
-
-
-
-
 
 end

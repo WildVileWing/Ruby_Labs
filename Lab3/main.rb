@@ -58,52 +58,56 @@ def second_task
   loop do
     puts "Введите возраст. Для выхода введите -1"
     input_age = gets.to_i
-    students.readlines.each do |line|
-      if line.chomp.reverse[0, 2].reverse == input_age.to_s
-        results.puts  line
-      end
-    end
     break if input_age == -1
-  end
-  results.close
-  results = File.open("results.txt")
-  results.readlines.each do |line|
-    puts_return(line)
+    for student in students
+      File.write("results.txt", student, mode: "a") if student.include?(input_age.to_s)
+    end
   end
   students.close
   results.close
+  File.foreach("results.txt"){|student| puts student}
+end
+
+
+
+def deposit
+  puts "Введите сумму депозита:"
+  deposit_number = gets.chomp.to_f
+  if deposit_number > 0.0
+    @balance +=  deposit_number
+    puts_return("Текущий баланс: #{@balance}")
+  else
+    puts_return("Сумма введена некорректно.")
+  end
+end
+
+def withdraw
+  puts "Введите сумму вывода:"
+  withdraw_number = gets.chomp.to_f
+  if @balance >= withdraw_number
+    balance -=  withdraw_number
+    puts_return("Текущий баланс: #{b@alance}")
+  else
+    puts_return("Сумма введена некорректно.")
+  end
 end
 
 def third_task
   if File.file?("balance.txt")
-    balance = File.read("balance.txt").to_f
+    @balance = File.read("balance.txt").to_f
   else
-    balance = File.write("balance.txt", 100.0, mode: "w").to_f
+    @balance = File.write("balance.txt", 100.0, mode: "w").to_f
   end
   loop do
     puts "Введите одну из команд: \nD - Депозит \nW - Вывод \nB - Баланс \nQ - Выход"
     input_command = gets.chomp.to_s
     case input_command
     when "D", "d"
-      puts "Введите сумму депозита:"
-      deposit_number = gets.chomp.to_f
-      if deposit_number > 0.0
-        balance +=  deposit_number
-        puts_return("Текущий баланс: #{balance}")
-      else
-        puts_return("Сумма введена некорректно.")
-      end
+      deposit
     when "W", "w"
-      puts "Введите сумму вывода:"
-      withdraw_number = gets.chomp.to_f
-      if balance >= withdraw_number
-        balance -=  withdraw_number
-        puts_return("Текущий баланс: #{balance}")
-      else
-        puts_return("Сумма введена некорректно.")
-      end
+      withdraw
     when "B", "b"
-      puts_return(balance)
+      puts_return(@balance)
     when "Q", "q"
       break
     else
@@ -111,6 +115,3 @@ def third_task
     end
   end
 end
-
-
-second_task
