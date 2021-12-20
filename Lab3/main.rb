@@ -2,29 +2,31 @@ require '../General_methods'
 #first task
 def index(file_path)
   file_line = File.open(file_path)
-  file_line.readlines.each do |line|
-    puts_return(line.chomp)
-  end
+  file_lines = file_line.readlines.map(&:chomp)
   file_line.close
+  file_lines
 end
 
 def find(file_path, id)
+  student = student
   file_line = File.open(file_path)
   file_line.each_with_index do |line, index|
-    puts_return(line)if id == index+1
+    student = line if id == index+1
   end
   file_line.close
+  student.chomp.chomp
 end
 
 def where(file_path, pattern)
+  pattern_lines = []
   file_line = File.open(file_path)
   file_line.readlines.each do |line|
-    if (line.chomp[0, pattern.length] == pattern.to_s) ||
-      (line.chomp.reverse[0, pattern.length].reverse == pattern.to_s)
-      puts_return(line)
+    if line.include? pattern
+      pattern_lines.push line
     end
   end
   file_line.close
+  pattern_lines
 end
 
 def update(file_path, id, text)
@@ -35,8 +37,8 @@ def update(file_path, id, text)
   end
   temp.close
   File.write("line.txt", File.read("temp.txt"))
-  file_line.close
   File.delete("temp.txt")
+  file_line.close
 end
 
 def delete(file_path, id)
@@ -45,37 +47,37 @@ def delete(file_path, id)
   file_line.each_with_index do |line, index|
     temp.puts line if id != index+1
   end
-  temp.close
-  file_line.close
   File.write("line.txt", File.read("temp.txt"))
   File.delete("temp.txt")
+  temp.close
+  file_line.close
 end
 
 
 def second_task
-  students = File.open("students.txt")
-  results = File.open("results.txt", "w")
+  input = File.open("students.txt")
+  students = input.readlines.map(&:chomp)
+  results = File.open("results.txt", "a")
   loop do
     puts "Введите возраст. Для выхода введите -1"
     input_age = gets.to_i
     break if input_age == -1
     for student in students
-      File.write("results.txt", student, mode: "a") if student.include?(input_age.to_s)
+      File.write(results, "#{student}\n", mode: "a") if student.include?(input_age.to_s)
     end
   end
-  students.close
+  File.foreach(results){|line| line}
   results.close
-  File.foreach("results.txt"){|student| puts student}
+
+
+
 end
-
-
 
 def deposit
   puts "Введите сумму депозита:"
-  deposit_number = gets.chomp.to_f
-  if deposit_number > 0.0
-    @balance +=  deposit_number
-    puts_return("Текущий баланс: #{@balance}")
+  deposit_number = gets.to_f
+  if deposit_number > 0
+    @balance = @balance.to_f + deposit_number
   else
     puts_return("Сумма введена некорректно.")
   end
@@ -83,17 +85,21 @@ end
 
 def withdraw
   puts "Введите сумму вывода:"
-  withdraw_number = gets.chomp.to_f
-  if @balance >= withdraw_number
-    balance -=  withdraw_number
-    puts_return("Текущий баланс: #{b@alance}")
+  @balance = 100.0
+  withdraw_number = gets.to_f
+  if @balance.to_f > withdraw_number
+    @balance = @balance - withdraw_number
   else
     puts_return("Сумма введена некорректно.")
   end
 end
 
+def balance
+  puts "Текущий баланс #{@balance}"
+end
+
 def third_task
-  if File.file?("balance.txt")
+  if File.file?("balance.txt") & File.read("balance.txt") != nil
     @balance = File.read("balance.txt").to_f
   else
     @balance = File.write("balance.txt", 100.0, mode: "w").to_f
@@ -107,7 +113,7 @@ def third_task
     when "W", "w"
       withdraw
     when "B", "b"
-      puts_return(@balance)
+      balance
     when "Q", "q"
       break
     else

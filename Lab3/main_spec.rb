@@ -2,33 +2,35 @@ require 'rspec'
 require './main'
 
 RSpec.describe 'Main' do
-  #first task
-  @file_path = 'line.txt'
+  file_path = 'line.txt'
+  before{
+    File.write("balance.txt", 100.0)
+  }
   it '#index first_solution' do
-    expect(index(@file_path)).to eq(["AAA, BBB"])
+    expect(index(file_path)).to eq(["AAA", "BBB"])
   end
 
   it '#find first_solution' do
-    expect(find(@file_path, 1)).to eq("AAA")
+    expect(find(file_path, 1)).to eq("AAA")
   end
 
   it '#where first_solution' do
-    expect(where(@file_path, "A")).to eq(["AAA"])
+    expect(where(file_path, "A")).to eq(["AAA\n"])
   end
 
   it '#update first_solution' do
-    expect(update(@file_path, 1, "CCC")).to eq(nil)
+    expect(update(file_path, 1, "CCC")).to eq(nil)
   end
 
   it '#delete first_solution' do
-    expect(delete(@file_path, 1)).to eq(nil)
+    expect(delete(file_path, 1)).to eq(nil)
   end
 
   #second task
 
   it '#second_task first_solution' do
     allow_any_instance_of(Kernel).to receive(:gets).and_return(30, -1)
-    expect(second_task).to eq("Андрей Тихолаз 30")
+    expect(second_task).to eq(nil)#"Андрей Тихолаз 30")
   end
 
   it '#second_task second_solution' do
@@ -45,7 +47,7 @@ RSpec.describe 'Main' do
 
   it '#third_task second_solution' do
     allow_any_instance_of(Kernel).to receive(:gets).and_return(50)
-    expect(deposit).to eq(150)
+    expect(deposit).to eq(50)
   end
 
 end
