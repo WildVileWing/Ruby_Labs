@@ -1,5 +1,7 @@
 Rails.application.routes.draw do
 
+  devise_for :users
+
   get '/', to: 'root#hello_world'
 
   get '/reports', to: 'posts#index'
